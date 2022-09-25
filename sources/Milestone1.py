@@ -11,9 +11,9 @@ def Kepler(U,t):
 
     return np.array([F0, F1, F2, F3])
 
-def Euler(U, dt, t, F): 
+def Euler(U, dt, t, F_E): 
 
-    return (U + dt*F(U, t))
+    return (U + dt*F_E[U, t])
 
 def RK4(U, t, deltat):
 
@@ -27,7 +27,7 @@ def RK4(U, t, deltat):
 #-------------------------------------#
 
 def F():
-    n = 200  #nº de pasos
+    n = 2000  #nº de pasos
     tf = 10 #valor final
     dt = tf/n
 
@@ -36,7 +36,7 @@ def F():
     v0 = np.array([0, 1])
 
     U0 = np.hstack((r0,v0)) # Initial condition
-    print(U0)
+    #print(U0)
 
 
     U = np.zeros((n, 4)) # En cada fila vector r y vector v
@@ -50,7 +50,7 @@ def F():
         
         t[i] = dt*i
         F = Kepler(U[i-1,:],t[i])
-        print(F)
+        #print(F)
         
         U[i,:] = U[i-1,:] + dt*F
 
@@ -84,8 +84,8 @@ def F_Euler():
 
     for i in range(1,n):
         t[i] = dt*i
-        F = Kepler(U[i-1,:],t[i])
-        U[i,:] = Euler(U[i-1,:],dt,t[i],F)
+        F1 = Kepler(U[i-1,:],t[i])
+        U[i,:] = Euler(U[i-1,:],dt,t[i],F1)
         plt.figure(2)
         plt.plot(U[:,0],U[:,1])
         plt.show()
@@ -108,6 +108,11 @@ def F_RK4():
     for i in range(1,n):
 
         U1[i,:] = U1[i-1,:] + RK4(U1[i-1,:],tf,dt)*dt
+
+    
+    plt.figure(3)
+    plt.plot(U1[:,0],U1[:,1])
+    plt.show()
 
     #print('Solución RK4')
     #print(U1)
