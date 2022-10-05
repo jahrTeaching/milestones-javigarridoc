@@ -9,7 +9,8 @@ def Cauchy_problem(Temporal_Scheme, F, t, U0):
      U[0,:] = U0
 
      for i in range(N):
-
+        #print(i)
         U[i+1,:] = Temporal_Scheme(U[i,:], t[i+1] - t[i], t[i], F) 
+        #print(U[i+1,:])
 
      return U
